@@ -5,7 +5,7 @@ import io
 # PostgreSQL への接続情報
 DB_HOST = "localhost"         # Dockerのコンテナをローカルで動かしている場合は "localhost"
 DB_PORT = "5432"              # PostgreSQL のポート番号
-DB_NAME = "sample_db"         # 接続するデータベース名
+DB_NAME = "bank_db"         # 接続するデータベース名
 DB_USER = "postgres"          # データベースユーザー名
 DB_PASSWORD = "postgres"      # パスワード
 
@@ -35,4 +35,4 @@ def get_table(table_name):
 
 
 
-print(get_table("class"))
+print(get_table("customers"))
