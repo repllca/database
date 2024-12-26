@@ -1,13 +1,11 @@
 import psycopg2
-from PIL import Image
-import io
 
 # PostgreSQL への接続情報
-DB_HOST = "localhost"         # Dockerのコンテナをローカルで動かしている場合は "localhost"
-DB_PORT = "5432"              # PostgreSQL のポート番号
-DB_NAME = "bank_db"         # 接続するデータベース名
-DB_USER = "postgres"          # データベースユーザー名
-DB_PASSWORD = "postgres"      # パスワード
+DB_HOST = "localhost"
+DB_PORT = "5432"
+DB_NAME = "bank_db"
+DB_USER = "postgres"
+DB_PASSWORD = "postgres"
 
 def connect():
     """PostgreSQL データベースへの接続を確立します。"""
@@ -19,20 +17,69 @@ def connect():
         password=DB_PASSWORD
     )
 
-    
-#テーブルの名前を取得してその名前と一致したテーブルを返す
 def get_table(table_name):
+    """指定されたテーブルのデータを取得します。"""
     connection = connect()
     cursor = connection.cursor()
 
-    cursor.execute(f"SELECT * FROM {table_name}")
-    rows = cursor.fetchall()
+    try:
+        cursor.execute(f"SELECT * FROM {table_name}")
+        rows = cursor.fetchall()
+    except psycopg2.Error as e:
+        print(f"Error: {e}")
+        rows = []
+    finally:
+        cursor.close()
+        connection.close()
 
-    # テーブルの内容を表示
-    cursor.close()
-    connection.close()
     return rows
 
+def write_to_table(table_name, columns, values):
+    """
+    指定されたテーブルにデータを挿入します。
+
+    Parameters:
+        table_name (str): テーブル名
+        columns (list): 挿入する列名のリスト
+        values (tuple): 挿入する値のタプル
+    """
+    connection = connect()
+    cursor = connection.cursor()
+
+    column_names = ", ".join(columns)
+    placeholders = ", ".join(["%s"] * len(values))
+    query = f"INSERT INTO {table_name} ({column_names}) VALUES ({placeholders})"
+
+    try:
+        cursor.execute(query, values)
+        connection.commit()
+    except psycopg2.Error as e:
+        print(f"Error: {e}")
+    finally:
+        cursor.close()
+        connection.close()
 
 
-print(get_table("customers"))
+def login_vulnerable(email, password):
+    # データベース接続
+    conn = connect()
+    cursor = conn.cursor()
+
+    # SQL文を直接組み立てる（危険！）
+    query = f"SELECT * FROM customers WHERE email = '{email}' AND password = '{password}';"
+    print("Executing query:", query)  # デバッグ用出力
+    cursor.execute(query)
+
+    result = cursor.fetchone()
+    if result:
+        print("Login successful:", result)
+    else:
+        print("Login failed")
+
+    cursor.close()
+    conn.close()
+
+# テーブルの内容を表示
+# print(get_table("customers"))
+login_vulnerable("admin@example.com", "admin123")
+

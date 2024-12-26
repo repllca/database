@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS accounts;
 DROP TABLE IF EXISTS transactions;
 
 -- 顧客テーブル作成
+-- 顧客テーブル作成（平文パスワードを保存）
 CREATE TABLE customers (
     customer_id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -17,8 +18,10 @@ CREATE TABLE customers (
     email VARCHAR(100) UNIQUE NOT NULL,
     phone_number VARCHAR(15),
     address TEXT,
+    password VARCHAR(255) NOT NULL,  -- 平文のパスワードを保存
     created_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- 口座テーブル作成
 CREATE TABLE accounts (
@@ -40,13 +43,12 @@ CREATE TABLE transactions (
     balance_after DECIMAL(15, 2) NOT NULL
 );
 
--- 初期データ挿入: 顧客
-INSERT INTO customers (first_name, last_name, email, phone_number, address) 
+-- 初期データ挿入
+INSERT INTO customers (first_name, last_name, email, phone_number, address, password) 
 VALUES 
-    ('John', 'Doe', 'john.doe@example.com', '123-456-7890', '123 Main St, City, Country'),
-    ('Jane', 'Smith', 'jane.smith@example.com', '987-654-3210', '456 Elm St, City, Country'),
-    ('Alice', 'Johnson', 'alice.johnson@example.com', '555-123-4567', '789 Pine St, City, Country'),
-    ('Bob', 'Williams', 'bob.williams@example.com', '555-987-6543', '321 Oak St, City, Country');
+    ('Admin', 'User', 'admin@example.com', '123-456-7890', '123 Main St', 'admin123'),
+    ('John', 'Doe', 'john.doe@example.com', '123-456-7890', '456 Elm St', 'password123');
+
 
 -- 初期データ挿入: 口座
 INSERT INTO accounts (account_number, account_type, balance, customer_id) 
@@ -63,6 +65,3 @@ VALUES
     (2, 'withdrawal', 200.00, 1800.00),
     (3, 'transfer', 300.00, 1200.00),
     (4, 'deposit', 1000.00, 4000.00);
-
-
-
