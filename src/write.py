@@ -62,19 +62,26 @@ def write_to_table(table_name, columns, values):
 
 def login_vulnerable(email, password):
     # データベース接続
+    print("データベースに接続中...")
     conn = connect()
     cursor = conn.cursor()
 
-    # SQL文を直接組み立てる（危険！）
+    # クエリの作成
     query = f"SELECT * FROM customers WHERE email = '{email}' AND password = '{password}';"
-    print("Executing query:", query)  # デバッグ用出力
-    cursor.execute(query)
+    print("実行するクエリ:", query)  # デバッグ用出力
 
-    result = cursor.fetchone()
-    if result:
-        print("Login successful:", result)
-    else:
-        print("Login failed")
+    try:
+        cursor.execute(query)
+
+        # 結果の確認
+        result = cursor.fetchone()
+        if result:
+            print("ログイン成功: ユーザー情報:", result)
+        else:
+            print("ログイン失敗: 指定したメールアドレスまたはパスワードが間違っています")
+
+    except Exception as e:
+        print("エラーが発生しました:", e)
 
     cursor.close()
     conn.close()
@@ -83,3 +90,4 @@ def login_vulnerable(email, password):
 # print(get_table("customers"))
 login_vulnerable("admin@example.com", "admin123")
 
+login_vulnerable("adminexample.com", "admin123")
