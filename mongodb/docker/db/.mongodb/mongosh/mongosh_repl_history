@@ -1,0 +1,50 @@
+db.users.find().pretty();
+use user_management
+user user_management
+db.users.find().pretty();
+db.users.fined().pretty();
+show dbs;
+db.users.find().pretty();
+db.users.fined().pretty();
+db.users.insertOne({ username: "john_doe", email: "john.doe@example.com", password_hash: "$2b$10$anotherhashedpassword", roles: ["user"], created_at: new Date(), updated_at: new Date(), is_active: true });
+db.users.insertOne({ username: "admin", email: "admin@example.com", password_hash: "$2b$10$examplehashedpassword", roles: ["admin"], created_at: new Date(), updated_at: new Date(), is_active: true });
+show dbs;
+db.createCollection("users");
+use user_management;
+show dbs;
+db.dropDatabase();
+use users;
+show dbs;
+db.getUsers();
+use mydatabase
+db.getUsers();
+db.dropDatabase();
+db.getUsers();
+db.dropDatabase();
+db.getUsers();
+db.createUser({ user: "myuser", pwd: "mypassword", /* パスワードを設定*/ roles: [{ role: "readWrite", db: "user_management" }] /* 権限を設定*/ });
+use user_management;  // データベースを選択、なければ新規作成される
+eixt
+db.users.find().pretty();
+use user_management
+show dbs;
+use admin
+user admin
+show dbs;
+show dbs
+show dbs;
+db.mycollection.insertOne({ name: "test", value: 1 });
+use users
+show collections
+use admin
+show dbs;
+mongo -u root -p password
+mongo
+monogo
+mono
+show dbs;
+use nitani
+use users
+show dbs;
+show dbs
+use users
