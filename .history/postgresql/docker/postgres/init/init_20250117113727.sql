@@ -47,7 +47,7 @@ CREATE TABLE transactions (
 INSERT INTO customers (first_name, last_name, email, phone_number, address, password) 
 VALUES 
     ('Admin', 'User', 'test@example.com', '123-456-7890', '123 Main St', 'test123'),
-    ('John', 'Doe', 'password@example.com', '123-456-7890', '456 Elm St', 'password123');
+    ('John', 'Doe', 'pa@example.com', '123-456-7890', '456 Elm St', 'password123');
 
 
 -- 初期データ挿入: 口座

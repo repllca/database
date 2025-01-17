@@ -1,4 +1,4 @@
 psycopg2-binary
 pillow
 sanic
-sanic-cors
+sanic-co
