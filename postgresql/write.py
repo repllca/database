@@ -66,13 +66,13 @@ def login_vulnerable(email, password):
     conn = connect()
     cursor = conn.cursor()
 
-    # 安全なクエリの作成（プレースホルダを使用）
-    query = "SELECT * FROM customers WHERE email = ? AND password = ?;"
-    print("実行するクエリ（プレースホルダ使用）:", query)  # デバッグ用出力
+    # クエリに引数をそのまま埋め込む（危険）
+    query = f"SELECT * FROM customers WHERE email = '{email}' AND password = '{password}';"
+    print("実行するクエリ:", query)  # デバッグ用出力
 
     try:
-        # プレースホルダに値を渡して実行
-        cursor.execute(query, (email, password))
+        # クエリを直接実行
+        cursor.execute(query)
 
         # 結果の確認
         result = cursor.fetchone()
@@ -88,6 +88,7 @@ def login_vulnerable(email, password):
     cursor.close()
     conn.close()
     return False
+
 # テーブルの内容を表示
 # print(get_table("customers"))
 
